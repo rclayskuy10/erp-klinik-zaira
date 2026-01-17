@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Search, Eye, FileText, Edit, Printer, Download } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent, Button, Badge, Modal } from '@/components/ui';
@@ -9,7 +9,7 @@ import { rekamMedisList, getPasienById, getDokterById, kunjunganList } from '@/d
 import { formatDate, formatCurrency } from '@/lib/utils';
 import { RekamMedis } from '@/types';
 
-export default function RekamMedisPage() {
+function RekamMedisContent() {
   const searchParams = useSearchParams();
   const pasienIdFromUrl = searchParams.get('pasienId');
   
@@ -385,5 +385,13 @@ export default function RekamMedisPage() {
         )}
       </Modal>
     </div>
+  );
+}
+
+export default function RekamMedisPage() {
+  return (
+    <Suspense fallback={<div className="p-8 text-center">Loading...</div>}>
+      <RekamMedisContent />
+    </Suspense>
   );
 }
