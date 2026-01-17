@@ -313,7 +313,7 @@ export default function PasienPage() {
                 { value: 'O', label: 'O' },
               ]}
               value={formData.golonganDarah || ''}
-              onChange={(e) => setFormData({...formData, golonganDarah: e.target.value})}
+              onChange={(e) => setFormData({...formData, golonganDarah: e.target.value as 'A' | 'B' | 'AB' | 'O'})}
             />
           </div>
           <Textarea 
