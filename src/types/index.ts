@@ -58,7 +58,7 @@ export interface TenagaMedis {
   id: string;
   nip: string;
   nama: string;
-  jabatan: 'perawat' | 'bidan' | 'analis' | 'apoteker' | 'admin';
+  jabatan: 'perawat' | 'bidan' | 'analis' | 'apoteker' | 'admin' | 'radiografer';
   telepon: string;
   email: string;
   isActive: boolean;
