@@ -35,12 +35,12 @@ export function Modal({ isOpen, onClose, title, children, size = 'md' }: ModalPr
       <div className="flex min-h-full items-center justify-center p-4">
         <div
           className={cn(
-            'relative w-full bg-white rounded-xl shadow-xl transform transition-all',
+            'relative w-full bg-white rounded-xl shadow-xl transform transition-all modal-content',
             sizeClasses[size]
           )}
         >
           {/* Header */}
-          <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
+          <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 no-print">
             <h2 className="text-lg font-semibold text-gray-800">{title}</h2>
             <button
               onClick={onClose}

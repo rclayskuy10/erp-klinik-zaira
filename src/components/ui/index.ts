@@ -4,3 +4,4 @@ export { Input, Textarea, Select } from './Input';
 export { Badge } from './Badge';
 export { DataTable, Pagination } from './Table';
 export { Modal } from './Modal';
+export { Skeleton, TableSkeleton, CardSkeleton, StatCardSkeleton, PageSkeleton } from './Skeleton';

@@ -30,79 +30,103 @@ interface MenuItem {
   name: string;
   href: string;
   icon: React.ElementType;
+  roles?: string[]; // roles that can access this menu
   children?: MenuItem[];
 }
 
 const menuItems: MenuItem[] = [
-  { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
+  { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard, roles: ['admin', 'dokter', 'kasir', 'farmasi', 'perawat'] },
   {
     name: 'Master Data',
     href: '/master',
     icon: Layers,
+    roles: ['admin'],
     children: [
-      { name: 'Data Pasien', href: '/master/pasien', icon: Users },
-      { name: 'Dokter & Tenaga Medis', href: '/master/dokter', icon: UserCog },
-      { name: 'Poli', href: '/master/poli', icon: Building2 },
-      { name: 'Layanan', href: '/master/layanan', icon: ClipboardList },
-      { name: 'Obat & Alat Medis', href: '/master/obat', icon: Pill },
-      { name: 'Kategori Tarif', href: '/master/tarif', icon: CreditCard },
+      { name: 'Data Pasien', href: '/master/pasien', icon: Users, roles: ['admin'] },
+      { name: 'Dokter & Tenaga Medis', href: '/master/dokter', icon: UserCog, roles: ['admin'] },
+      { name: 'Poli', href: '/master/poli', icon: Building2, roles: ['admin'] },
+      { name: 'Layanan', href: '/master/layanan', icon: ClipboardList, roles: ['admin'] },
+      { name: 'Obat & Alat Medis', href: '/master/obat', icon: Pill, roles: ['admin'] },
+      { name: 'Kategori Tarif', href: '/master/tarif', icon: CreditCard, roles: ['admin'] },
     ],
   },
   {
     name: 'Rekam Medis',
     href: '/emr',
     icon: FileText,
+    roles: ['admin', 'dokter', 'perawat'],
     children: [
-      { name: 'Daftar Kunjungan', href: '/emr/kunjungan', icon: Activity },
-      { name: 'Rekam Medis', href: '/emr/rekam-medis', icon: FileText },
+      { name: 'Daftar Kunjungan', href: '/emr/kunjungan', icon: Activity, roles: ['admin', 'dokter', 'perawat'] },
+      { name: 'Rekam Medis', href: '/emr/rekam-medis', icon: FileText, roles: ['admin', 'dokter', 'perawat'] },
     ],
   },
   {
     name: 'Kasir & Billing',
     href: '/kasir',
     icon: Receipt,
+    roles: ['admin', 'kasir'],
     children: [
-      { name: 'Registrasi', href: '/kasir/registrasi', icon: ClipboardList },
-      { name: 'Antrian', href: '/kasir/antrian', icon: Users },
-      { name: 'Pembayaran', href: '/kasir/pembayaran', icon: CreditCard },
-      { name: 'Daftar Invoice', href: '/kasir/invoice', icon: Receipt },
+      { name: 'Registrasi', href: '/kasir/registrasi', icon: ClipboardList, roles: ['admin', 'kasir'] },
+      { name: 'Antrian', href: '/kasir/antrian', icon: Users, roles: ['admin', 'kasir'] },
+      { name: 'Pembayaran', href: '/kasir/pembayaran', icon: CreditCard, roles: ['admin', 'kasir'] },
+      { name: 'Daftar Invoice', href: '/kasir/invoice', icon: Receipt, roles: ['admin', 'kasir'] },
     ],
   },
   {
     name: 'Farmasi & Inventory',
     href: '/farmasi',
     icon: Pill,
+    roles: ['admin', 'farmasi'],
     children: [
-      { name: 'Stok Obat', href: '/farmasi/stok', icon: Package },
-      { name: 'Stok Masuk', href: '/farmasi/stok-masuk', icon: Package },
-      { name: 'Stok Keluar', href: '/farmasi/stok-keluar', icon: Package },
-      { name: 'Obat Kadaluarsa', href: '/farmasi/kadaluarsa', icon: Pill },
-      { name: 'Supplier', href: '/farmasi/supplier', icon: Building2 },
+      { name: 'Stok Obat', href: '/farmasi/stok', icon: Package, roles: ['admin', 'farmasi'] },
+      { name: 'Stok Masuk', href: '/farmasi/stok-masuk', icon: Package, roles: ['admin', 'farmasi'] },
+      { name: 'Stok Keluar', href: '/farmasi/stok-keluar', icon: Package, roles: ['admin', 'farmasi'] },
+      { name: 'Obat Kadaluarsa', href: '/farmasi/kadaluarsa', icon: Pill, roles: ['admin', 'farmasi'] },
+      { name: 'Supplier', href: '/farmasi/supplier', icon: Building2, roles: ['admin', 'farmasi'] },
     ],
   },
   {
     name: 'Laporan',
     href: '/laporan',
     icon: BarChart3,
+    roles: ['admin'],
     children: [
-      { name: 'Laporan Kunjungan', href: '/laporan/kunjungan', icon: FileBarChart },
-      { name: 'Laporan Pendapatan', href: '/laporan/pendapatan', icon: FileBarChart },
-      { name: 'Laporan Obat', href: '/laporan/obat', icon: FileBarChart },
-      { name: 'Laporan Stok', href: '/laporan/stok', icon: FileBarChart },
+      { name: 'Laporan Kunjungan', href: '/laporan/kunjungan', icon: FileBarChart, roles: ['admin'] },
+      { name: 'Laporan Pendapatan', href: '/laporan/pendapatan', icon: FileBarChart, roles: ['admin'] },
+      { name: 'Laporan Obat', href: '/laporan/obat', icon: FileBarChart, roles: ['admin'] },
+      { name: 'Laporan Stok', href: '/laporan/stok', icon: FileBarChart, roles: ['admin'] },
     ],
   },
   {
     name: 'Pengguna',
     href: '/pengguna',
     icon: UserCircle,
+    roles: ['admin'],
   },
-  { name: 'Pengaturan', href: '/pengaturan', icon: Settings },
+  { name: 'Pengaturan', href: '/pengaturan', icon: Settings, roles: ['admin'] },
 ];
 
 export default function Sidebar() {
   const pathname = usePathname();
-  const { sidebarOpen, setSidebarOpen } = useLayout();
+  const { sidebarOpen, setSidebarOpen, currentUser } = useLayout();
   const [expandedMenus, setExpandedMenus] = React.useState<string[]>(['Master Data', 'Rekam Medis', 'Kasir & Billing', 'Farmasi & Inventory', 'Laporan']);
+
+  // Filter menu items based on user role
+  const filteredMenuItems = menuItems.filter(item => {
+    if (!item.roles) return true;
+    return item.roles.includes(currentUser.role);
+  }).map(item => {
+    if (item.children) {
+      return {
+        ...item,
+        children: item.children.filter(child => {
+          if (!child.roles) return true;
+          return child.roles.includes(currentUser.role);
+        })
+      };
+    }
+    return item;
+  });
 
   const toggleMenu = (name: string) => {
     setExpandedMenus(prev =>
@@ -163,7 +187,7 @@ export default function Sidebar() {
         </button>
 
         {/* Navigation */}
-        <nav className="flex-1 overflow-y-auto py-4">
+        <nav className="flex-1 py-4 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           <ul className="space-y-0.5 px-3">
             {menuItems.map((item) => (
               <li key={item.name}>

@@ -24,3 +24,95 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* Print Styles */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  
+  /* Show modal content */
+  .modal-content,
+  .modal-content * {
+    visibility: visible;
+  }
+  
+  .modal-content {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+  
+  /* Hide unwanted elements */
+  .no-print {
+    display: none !important;
+  }
+  
+  /* Page settings */
+  @page {
+    margin: 1.5cm;
+    size: A4;
+  }
+  
+  /* Reset modal styling for print */
+  .modal-content {
+    background: white !important;
+    box-shadow: none !important;
+    border: none !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  /* Ensure tables print properly */
+  table {
+    page-break-inside: auto;
+    border-collapse: collapse !important;
+  }
+  
+  table th,
+  table td {
+    border: 1px solid #000 !important;
+    padding: 8px !important;
+  }
+  
+  table thead {
+    background-color: #f3f4f6 !important;
+  }
+  
+  tr {
+    page-break-inside: avoid;
+    page-break-after: auto;
+  }
+  
+  /* Ensure backgrounds print */
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  /* Better spacing for print */
+  .space-y-6 > * + * {
+    margin-top: 1.5rem !important;
+  }
+  
+  /* Headings */
+  h3 {
+    font-weight: 600 !important;
+    margin-top: 1rem !important;
+    margin-bottom: 0.5rem !important;
+    page-break-after: avoid;
+  }
+}

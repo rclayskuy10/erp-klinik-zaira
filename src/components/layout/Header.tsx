@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import { useLayout } from './LayoutContext';
 import { 
   Menu, 
@@ -13,14 +14,24 @@ import {
 import { getRoleColor } from '@/lib/utils';
 
 export default function Header() {
+  const router = useRouter();
   const { sidebarOpen, setSidebarOpen, currentUser } = useLayout();
   const [showUserMenu, setShowUserMenu] = React.useState(false);
   const [showNotifications, setShowNotifications] = React.useState(false);
 
+  const handleLogout = () => {
+    // Close menu
+    setShowUserMenu(false);
+    // Remove user data
+    localStorage.removeItem('currentUser');
+    // Force redirect
+    window.location.href = '/login';
+  };
+
   const notifications = [
-    { id: 1, message: 'Obat Paracetamol stok hampir habis', time: '5 menit lalu', type: 'warning' },
-    { id: 2, message: 'Pasien baru terdaftar: Dewi Lestari', time: '15 menit lalu', type: 'info' },
-    { id: 3, message: '3 obat akan kadaluarsa bulan ini', time: '1 jam lalu', type: 'danger' },
+    { id: 1, message: 'Obat Paracetamol stok hampir habis', time: '5 menit lalu', type: 'warning', link: '/farmasi/stok' },
+    { id: 2, message: 'Pasien baru terdaftar: Dewi Lestari', time: '15 menit lalu', type: 'info', link: '/master/pasien' },
+    { id: 3, message: '3 obat akan kadaluarsa bulan ini', time: '1 jam lalu', type: 'danger', link: '/farmasi/kadaluarsa' },
   ];
 
   return (
@@ -74,7 +85,11 @@ export default function Header() {
                   {notifications.map((notif) => (
                     <div
                       key={notif.id}
-                      className="px-4 py-3 hover:bg-gray-50 cursor-pointer border-b border-gray-50 last:border-0"
+                      onClick={() => {
+                        setShowNotifications(false);
+                        router.push(notif.link);
+                      }}
+                      className="px-4 py-3 hover:bg-gray-50 cursor-pointer border-b border-gray-50 last:border-0 transition-colors"
                     >
                       <p className="text-sm text-gray-700">{notif.message}</p>
                       <p className="text-xs text-gray-400 mt-1">{notif.time}</p>
@@ -82,7 +97,14 @@ export default function Header() {
                   ))}
                 </div>
                 <div className="px-4 py-2 border-t border-gray-100">
-                  <button className="text-sm text-teal-600 hover:text-teal-700 font-medium" suppressHydrationWarning>
+                  <button 
+                    onClick={() => {
+                      setShowNotifications(false);
+                      router.push('/notifikasi');
+                    }}
+                    className="text-sm text-teal-600 hover:text-teal-700 font-medium transition-colors" 
+                    suppressHydrationWarning
+                  >
                     Lihat semua notifikasi
                   </button>
                 </div>
@@ -123,7 +145,11 @@ export default function Header() {
                     <User className="w-4 h-4" />
                     Profil Saya
                   </button>
-                  <button className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50" suppressHydrationWarning>
+                  <button 
+                    onClick={handleLogout}
+                    className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50" 
+                    suppressHydrationWarning
+                  >
                     <LogOut className="w-4 h-4" />
                     Keluar
                   </button>
