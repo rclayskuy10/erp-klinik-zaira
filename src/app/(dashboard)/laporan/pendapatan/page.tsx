@@ -30,15 +30,13 @@ export default function LaporanPendapatanPage() {
 
   // Handle export to Excel (CSV format)
   const handleExportToExcel = () => {
-    const headers = ['Tanggal', 'No. Invoice', 'Pasien', 'Poli', 'Status', 'Metode Pembayaran', 'Subtotal', 'Diskon', 'Grand Total'];
+    const headers = ['Tanggal', 'No. Invoice', 'Pasien', 'Status', 'Metode Pembayaran', 'Subtotal', 'Diskon', 'Grand Total'];
     const rows = invoiceList.map(item => {
       const pasien = getPasienById(item.pasienId);
-      const poli = getPoliById(item.poliId);
       return [
         formatDate(item.tanggal),
         item.id,
         pasien?.nama || '-',
-        poli?.nama || '-',
         item.status,
         item.metodePembayaran || '-',
         item.subtotal,
