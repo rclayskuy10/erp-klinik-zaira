@@ -7,10 +7,10 @@ import MainLayout from "@/components/layout/MainLayout";
 // Define role permissions
 const rolePermissions: Record<string, string[]> = {
   admin: ['*'], // Admin has access to everything
-  dokter: ['/dashboard', '/emr'],
-  kasir: ['/dashboard', '/kasir'],
-  farmasi: ['/dashboard', '/farmasi'],
-  perawat: ['/dashboard', '/emr'],
+  dokter: ['/dashboard', '/emr', '/master/pasien', '/laporan/kunjungan'],
+  kasir: ['/dashboard', '/kasir', '/master/pasien', '/laporan/pendapatan'],
+  farmasi: ['/dashboard', '/farmasi', '/laporan/obat', '/laporan/stok'],
+  perawat: ['/dashboard', '/emr', '/master/pasien', '/kasir/registrasi', '/kasir/antrian'],
 };
 
 export default function DashboardLayout({
